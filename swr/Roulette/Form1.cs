@@ -42,6 +42,8 @@ namespace Roulette
 
             foreach(RadioButton radioButton in radioButtons) { radioButton.GotFocus += new EventHandler(SetValue); }
 
+            rdb1.Checked = true;
+
             // adds all buttons to a list
             buttons.AddRange(this.Controls.OfType<Button>().ToList());
 
@@ -133,8 +135,19 @@ namespace Roulette
                     button.BackColor = System.Drawing.Color.Black;
                     button.ForeColor = System.Drawing.Color.White;
                 }
+
                 selection.Remove(button);
                 button.Tag = "false";
+
+
+                foreach(List<int> num in btnM)
+                {
+                    if(num[0] == Convert.ToInt32(button.Name.Skip(4)))
+                    {
+                        num.Remove(num.Last());
+                    }
+                }
+
                 cCount--;
             }
             else
@@ -145,6 +158,15 @@ namespace Roulette
                 button.ForeColor = System.Drawing.Color.Black;
                 button.Tag = "true";
 
+
+                foreach (List<int> num in btnM)
+                {
+                    if(num[0] == Convert.ToInt32(button.Name.Skip(4)))
+                    {
+                        num.Add(value);
+                    }
+                }
+                
                 #region
                 
                 if (button.Name.StartsWith("row")) {        // also useless code - this part have to be deleted and reworked
