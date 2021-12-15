@@ -40,3 +40,13 @@ C:\Users\Lauri\Documents\GitHub\school_roulette\swr\Roulette\bin\Debug\Roulette.
 C:\Users\Lauri\Documents\GitHub\school_roulette\swr\Roulette\bin\Debug\Roulette.pdb
 C:\Users\Lauri\Documents\GitHub\school_roulette\swr\Roulette\obj\Debug\Roulette.exe
 C:\Users\Lauri\Documents\GitHub\school_roulette\swr\Roulette\obj\Debug\Roulette.pdb
+\\S1\StudentsHome$\L.vonOppenkowski\Data\Desktop\school_roulette-main\swr\Roulette\bin\Debug\Roulette.exe.config
+\\S1\StudentsHome$\L.vonOppenkowski\Data\Desktop\school_roulette-main\swr\Roulette\bin\Debug\Roulette.exe
+\\S1\StudentsHome$\L.vonOppenkowski\Data\Desktop\school_roulette-main\swr\Roulette\bin\Debug\Roulette.pdb
+\\S1\StudentsHome$\L.vonOppenkowski\Data\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.csprojAssemblyReference.cache
+\\S1\StudentsHome$\L.vonOppenkowski\Data\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.Form1.resources
+\\S1\StudentsHome$\L.vonOppenkowski\Data\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.Properties.Resources.resources
+\\S1\StudentsHome$\L.vonOppenkowski\Data\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.csproj.GenerateResource.cache
+\\S1\StudentsHome$\L.vonOppenkowski\Data\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.csproj.CoreCompileInputs.cache
+\\S1\StudentsHome$\L.vonOppenkowski\Data\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.exe
+\\S1\StudentsHome$\L.vonOppenkowski\Data\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.pdb

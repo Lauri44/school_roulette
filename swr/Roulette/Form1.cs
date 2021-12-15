@@ -16,7 +16,7 @@ namespace Roulette
         // inits lists for control elements
         private List<Button> buttons = new List<Button>();
         private List<Button> selection = new List<Button>();
-        private List<List<Button>> spcBtn = new List<List<Button>>(); // 2D matrix for buttons
+        private List<List<String>> spcBtn = new List<List<String>>(); // 2D matrix for buttons
         private List<List<int>> btnM = new List<List<int>>();
 
         private List<RadioButton> radioButtons = new List<RadioButton>();
@@ -65,7 +65,25 @@ namespace Roulette
                 }
                 else
                 {
-                    button.BackColor = System.Drawing.Color.White;
+                    if (button.Name.EndsWith("Hr"))
+                    {
+                        button.BackColor = System.Drawing.Color.Red;
+                        button.ForeColor = System.Drawing.Color.White;
+                    }
+                    else if(button.Name.EndsWith("Hb"))
+                    {
+                        button.BackColor = System.Drawing.Color.Black;
+                        button.ForeColor = System.Drawing.Color.White;
+                    }
+                    else
+                    {
+                        button.BackColor = System.Drawing.Color.Green;
+                        button.ForeColor = System.Drawing.Color.White;
+                    }
+
+                    List<String> spc = new List<string>();
+                    spc.Add(button.Name);
+                    spcBtn.Add(spc);
                 }
             }
 
@@ -110,8 +128,8 @@ namespace Roulette
                     onBtnSet.Add(Convert.ToInt32(buttons[i].Name.Skip(4)));
                     btnM.Add(onBtnSet);
                 }
-                // use spcBtn for the left buttons to save the set points
             }
+            
             #endregion
         }
 
@@ -124,7 +142,8 @@ namespace Roulette
             {
                 if (button.Name.StartsWith("btnRow") || button.Name.EndsWith("Null") || button.Name.StartsWith("btnQ") || button.Name.EndsWith("Spin") || button.Name.EndsWith("C")) // IIII doooon't liiiiike thiiis
                 {
-                    button.BackColor = System.Drawing.Color.White;
+                    button.BackColor = System.Drawing.Color.Green;
+                    button.ForeColor = System.Drawing.Color.White;
                 }
                 else if (Convert.ToInt32(button.Text) % 2 == 0)
                 {
@@ -139,14 +158,7 @@ namespace Roulette
                 selection.Remove(button);
                 button.Tag = "false";
 
-
-                foreach(List<int> num in btnM)
-                {
-                    if(num[0] == Convert.ToInt32(button.Name.Skip(4)))
-                    {
-                        num.Remove(num.Last());
-                    }
-                }
+                rmBtn(button);
 
                 cCount--;
             }
@@ -158,27 +170,8 @@ namespace Roulette
                 button.ForeColor = System.Drawing.Color.Black;
                 button.Tag = "true";
 
+                addBtn(button);
 
-                foreach (List<int> num in btnM)
-                {
-                    if(num[0] == Convert.ToInt32(button.Name.Skip(4)))
-                    {
-                        num.Add(value);
-                    }
-                }
-                
-                #region
-                
-                if (button.Name.StartsWith("row")) {        // also useless code - this part have to be deleted and reworked
-                    foreach(var btn in spcBtn[Convert.ToInt16(button.Name.Last())]) {
-                        selection.Add(btn);
-                    }
-                }
-                else
-                {
-                    selection.Add(button);
-                }
-                #endregion
                 cCount++;
             }
         }
@@ -187,7 +180,7 @@ namespace Roulette
         {
             GetSlc(selection);
             spinThread.Start();
-        }
+        } // not ready
 
         private void SetValue(object sender, EventArgs e)
         {
@@ -215,6 +208,55 @@ namespace Roulette
         private bool CheckSlc(Button button)
         {
             return true;
+        }
+
+        private void addBtn(Button button)
+        {
+            if (button.Name.StartsWith("btn_"))
+            {
+                foreach (List<int> num in btnM)
+                {
+                    if (num[0] == Convert.ToInt32(button.Name.Skip(4)))
+                    {
+                        num.Add(value);
+                    }
+                }
+            }
+            else
+            {
+                foreach (List<String> spc in spcBtn)
+                {
+                    if (spc[0] == button.Name)
+                    {
+                        spc.Add(value.ToString());
+                    }
+                }
+            }
+        }
+
+        private void rmBtn(Button button)
+        {
+            if (button.Name.StartsWith("btn_"))
+            {
+                foreach (List<int> num in btnM)
+                {
+                    if (num[0] == Convert.ToInt32(button.Name.Skip(4)))
+                    {
+                        num.Remove(num.Last());
+                    }
+                }
+            }
+            else
+            {
+                foreach (List<String> spc in spcBtn)
+                {
+                    if (spc[0] == button.Name)
+                    {
+                        spc.Remove(spc.Last());
+                    }
+                }
+            }
+
         }
 
         private void Roulette()

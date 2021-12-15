@@ -76,6 +76,8 @@
             this.rdb3 = new System.Windows.Forms.RadioButton();
             this.rdb1 = new System.Windows.Forms.RadioButton();
             this.rdb2 = new System.Windows.Forms.RadioButton();
+            this.btnHr = new System.Windows.Forms.Button();
+            this.btnHb = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn_one
@@ -415,6 +417,7 @@
             // 
             // btnNull
             // 
+            this.btnNull.Enabled = false;
             this.btnNull.Location = new System.Drawing.Point(224, 80);
             this.btnNull.Name = "btnNull";
             this.btnNull.Size = new System.Drawing.Size(177, 47);
@@ -520,11 +523,29 @@
             this.rdb2.Text = "50";
             this.rdb2.UseVisualStyleBackColor = true;
             // 
+            // btnHr
+            // 
+            this.btnHr.Location = new System.Drawing.Point(55, 133);
+            this.btnHr.Name = "btnHr";
+            this.btnHr.Size = new System.Drawing.Size(82, 347);
+            this.btnHr.TabIndex = 53;
+            this.btnHr.UseVisualStyleBackColor = true;
+            // 
+            // btnHb
+            // 
+            this.btnHb.Location = new System.Drawing.Point(55, 486);
+            this.btnHb.Name = "btnHb";
+            this.btnHb.Size = new System.Drawing.Size(82, 347);
+            this.btnHb.TabIndex = 54;
+            this.btnHb.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(946, 968);
+            this.Controls.Add(this.btnHb);
+            this.Controls.Add(this.btnHr);
             this.Controls.Add(this.rdb2);
             this.Controls.Add(this.rdb1);
             this.Controls.Add(this.rdb3);
@@ -630,6 +651,8 @@
         private System.Windows.Forms.RadioButton rdb3;
         private System.Windows.Forms.RadioButton rdb1;
         private System.Windows.Forms.RadioButton rdb2;
+        private System.Windows.Forms.Button btnHr;
+        private System.Windows.Forms.Button btnHb;
     }
 }
 
