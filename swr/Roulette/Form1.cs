@@ -26,7 +26,7 @@ namespace Roulette
         private Thread spinThread;
 
         int cCount = 0; // cCount counts the selections that were made
-        int value;
+        int value = 25;
 
         public Form1()
         {
@@ -122,10 +122,10 @@ namespace Roulette
             // This code appeard to be mutch more usefull then our Jar Jar above
             for (int i = 0; i < buttons.Count; i++)
             {
-                if (buttons[i].Name.StartsWith($"btn_{i + 1}")) // <= here could've "btn_" jsut been enougth to make shure
-                {                                               //    only the 1 to 36 buttons get added                                            
-                    List<int> onBtnSet = new List<int>();       //    but that wouldn't be as intresting to look at as the current version
-                    onBtnSet.Add(Convert.ToInt32(buttons[i].Name.Skip(4)));
+                if (buttons[i].Name.StartsWith($"btn_"))
+                {         
+                    List<int> onBtnSet = new List<int>();
+                    onBtnSet.Add(Convert.ToInt32(buttons[i].Text));
                     btnM.Add(onBtnSet);
                 }
             }
@@ -164,13 +164,14 @@ namespace Roulette
             }
             else
             {
-                if (cCount == 4) { return; } // potential function to check for the count and its neighbours
+                if (cCount == 4 || Convert.ToInt32(lblPoints.Text) - value < 0) { return; } // potential function to check for the count and its neighbours
 
                 button.BackColor = System.Drawing.Color.Gray;
                 button.ForeColor = System.Drawing.Color.Black;
                 button.Tag = "true";
 
                 addBtn(button);
+                visSet(button);
 
                 cCount++;
             }
@@ -216,7 +217,7 @@ namespace Roulette
             {
                 foreach (List<int> num in btnM)
                 {
-                    if (num[0] == Convert.ToInt32(button.Name.Skip(4)))
+                    if (num[0] == Convert.ToInt32(button.Text))
                     {
                         num.Add(value);
                     }
@@ -232,16 +233,21 @@ namespace Roulette
                     }
                 }
             }
+
+            int points = Convert.ToInt32(lblPoints.Text) - value;
+            lblPoints.Text = points.ToString();
         }
 
         private void rmBtn(Button button)
         {
+            int points = 0;
             if (button.Name.StartsWith("btn_"))
             {
                 foreach (List<int> num in btnM)
                 {
-                    if (num[0] == Convert.ToInt32(button.Name.Skip(4)))
+                    if (num[0] == Convert.ToInt32(button.Text))
                     {
+                        points += num.Last();
                         num.Remove(num.Last());
                     }
                 }
@@ -252,11 +258,37 @@ namespace Roulette
                 {
                     if (spc[0] == button.Name)
                     {
+                        points += Convert.ToInt32(spc.Last());
                         spc.Remove(spc.Last());
                     }
                 }
             }
 
+            points += Convert.ToInt32(lblPoints.Text);
+            lblPoints.Text = points.ToString();
+        }
+
+        private void visSet(Button button)
+        {
+            int x = button.Location.X + button.Size.Width / 2 - 8;
+            int y = button.Location.Y + button.Size.Height / 3 * 2;
+
+            Label lblSetPoints = new Label();
+            lblSetPoints.Location = new Point(x, y);
+            lblSetPoints.Name = "lblSetPoints";
+            lblSetPoints.Size = new Size(25, 15);
+            lblSetPoints.BackColor = button.BackColor;
+            lblSetPoints.ForeColor = Color.White;
+            lblSetPoints.Text = value.ToString();
+
+            this.Controls.Add(lblSetPoints);
+
+            lblSetPoints.BringToFront();
+
+        }
+        private void rmVisSet(Button button)
+        {
+            //TODO
         }
 
         private void Roulette()
