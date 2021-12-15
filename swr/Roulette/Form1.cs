@@ -140,10 +140,23 @@ namespace Roulette
 
             if (button.Tag.ToString() == "true")
             {
-                if (button.Name.StartsWith("btnRow") || button.Name.EndsWith("Null") || button.Name.StartsWith("btnQ") || button.Name.EndsWith("Spin") || button.Name.EndsWith("C")) // IIII doooon't liiiiike thiiis
+                if (!button.Name.StartsWith("btn_")) // IIII doooon't liiiiike thiiis
                 {
-                    button.BackColor = System.Drawing.Color.Green;
-                    button.ForeColor = System.Drawing.Color.White;
+                    if (button.Name.EndsWith("Hr"))
+                    {
+                        button.BackColor = System.Drawing.Color.Red;
+                        button.ForeColor = System.Drawing.Color.White;
+                    }
+                    else if(button.Name.EndsWith("Hb"))
+                    {
+                        button.BackColor = System.Drawing.Color.Black;
+                        button.ForeColor = System.Drawing.Color.White;
+                    }
+                    else
+                    {
+                        button.BackColor = System.Drawing.Color.Green;
+                        button.ForeColor = System.Drawing.Color.White;
+                    }
                 }
                 else if (Convert.ToInt32(button.Text) % 2 == 0)
                 {
