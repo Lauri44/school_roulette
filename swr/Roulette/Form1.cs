@@ -350,7 +350,7 @@ namespace Roulette
             for (double i = 1; i <= rand.Next(1000, 1500); i *= Math.Pow(1.001, x))
             {
                 Color bColor = buttons[index].BackColor;
-                Color spcColor = Color.Green;
+                Color spcColor = Color.Green;                       // <= refactoring necessary
                 Color hrColor = btnHr.BackColor;
                 Color hbColor = btnHb.BackColor;
 
