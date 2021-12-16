@@ -20,21 +20,23 @@ namespace Roulette
         private List<List<int>> btnM = new List<List<int>>();
 
         private List<RadioButton> radioButtons = new List<RadioButton>();
+
+        private String[] invCtrls = {"btnSpin", "btnBreak"};
         
         // inits threads
         private Thread mainThread;
-        private Thread spinThread;
+        private Boolean threadIsAlreadyActive;
 
-        int cCount = 0; // cCount counts the selections that were made
-        int value = 25;
+        private int cCount = 0; // cCount counts the selections that were made
+        private int value = 25;
 
         public Form1()
         {
             InitializeComponent();
 
-            // seperates parts of the program in two seperate threads
-            mainThread = Thread.CurrentThread;
-            spinThread = new Thread(Roulette) { IsBackground = true };
+            mainThread = Thread.CurrentThread; // <- this is not usefull for this program
+
+            threadIsAlreadyActive = false;
 
             this.BackColor = System.Drawing.Color.Green;
 
@@ -81,9 +83,12 @@ namespace Roulette
                         button.ForeColor = System.Drawing.Color.White;
                     }
 
-                    List<String> spc = new List<string>();
-                    spc.Add(button.Name);
-                    spcBtn.Add(spc);
+                    if (!button.Name.EndsWith("Spin"))
+                    {
+                        List<String> spc = new List<string>();
+                        spc.Add(button.Name);
+                        spcBtn.Add(spc);
+                    }
                 }
             }
 
@@ -138,9 +143,11 @@ namespace Roulette
         {
             Button button = (Button)sender;
 
+            if (isCtrlInv(button)) { return; }
+
             if (button.Tag.ToString() == "true")
             {
-                if (!button.Name.StartsWith("btn_")) // IIII doooon't liiiiike thiiis
+                if (!button.Name.StartsWith("btn_"))
                 {
                     if (button.Name.EndsWith("Hr"))
                     {
@@ -172,6 +179,7 @@ namespace Roulette
                 button.Tag = "false";
 
                 rmBtn(button);
+                rmVisSet(button);
 
                 cCount--;
             }
@@ -181,6 +189,8 @@ namespace Roulette
 
                 button.BackColor = System.Drawing.Color.Gray;
                 button.ForeColor = System.Drawing.Color.Black;
+
+                selection.Add(button);
                 button.Tag = "true";
 
                 addBtn(button);
@@ -189,12 +199,6 @@ namespace Roulette
                 cCount++;
             }
         }
-
-        private void btnSpin_Click(object sender, EventArgs e)
-        {
-            GetSlc(selection);
-            spinThread.Start();
-        } // not ready
 
         private void SetValue(object sender, EventArgs e)
         {
@@ -214,14 +218,21 @@ namespace Roulette
             }
         }
 
-        private void GetSlc(List<Button> slc)
+        private void btnSpin_Click(object sender, EventArgs e)
         {
+            List<int> btnL = new List<int>();
 
-        }
+            foreach(List<int> list in btnM)
+            {
+                btnL.Add(list[0]);
+            }
 
-        private bool CheckSlc(Button button)
-        {
-            return true;
+            if (!threadIsAlreadyActive)
+            {
+                Thread spinThread = new Thread(() => Roulette(btnL)); ;
+                spinThread.Start();
+                threadIsAlreadyActive = true;
+            }
         }
 
         private void addBtn(Button button)
@@ -283,13 +294,16 @@ namespace Roulette
 
         private void visSet(Button button)
         {
+            // visSet() [visualise set points]
+
             int x = button.Location.X + button.Size.Width / 2 - 8;
             int y = button.Location.Y + button.Size.Height / 3 * 2;
 
             Label lblSetPoints = new Label();
             lblSetPoints.Location = new Point(x, y);
             lblSetPoints.Name = "lblSetPoints";
-            lblSetPoints.Size = new Size(25, 15);
+            lblSetPoints.Tag = button.Name;
+            lblSetPoints.AutoSize = true;
             lblSetPoints.BackColor = button.BackColor;
             lblSetPoints.ForeColor = Color.White;
             lblSetPoints.Text = value.ToString();
@@ -297,17 +311,100 @@ namespace Roulette
             this.Controls.Add(lblSetPoints);
 
             lblSetPoints.BringToFront();
-
         }
+
         private void rmVisSet(Button button)
         {
-            //TODO
+            // rmVisSet() [remove visualisation of set points]
+
+            foreach(Control control in this.Controls.OfType<Label>())
+            {
+                if (control.Tag ==  button.Name)
+                {
+                    this.Controls.Remove(control);
+                }
+            }
         }
 
-        private void Roulette()
+        private bool isCtrlInv(Button button)
         {
-            Console.Write("test");
-            spinThread.Abort();
+            // isCtrlInv() [is control invalid]
+
+            if (invCtrls.Contains(button.Name))
+            {
+                return true;
+            }
+            return false;
         }
+
+        private void Roulette(List<int> btnL)
+        {
+            Random rand = new Random();
+            int x=0;
+            int index=0;
+            
+
+            // in this for-loop i used the exponential function a * b^x
+            // to simulate the down slowing effect through enrgy loss
+
+            for (double i = 1; i <= rand.Next(1000, 1500); i *= Math.Pow(1.001, x))
+            {
+                Color bColor = buttons[index].BackColor;
+                Color spcColor = Color.Green;
+                Color hrColor = btnHr.BackColor;
+                Color hbColor = btnHb.BackColor;
+
+                int btn = 0;
+
+                if (buttons[index].Name.StartsWith("btn_"))
+                {
+                    btn = Convert.ToInt32(buttons[index].Text);
+                }
+
+                if (btn <= 12 && btn > 0)
+                {
+                    btnQ1.BackColor = Color.Yellow;
+                    buttons[index].BackColor = Color.Yellow;
+                }
+                else if(btn <= 24)
+                {
+                    btnQ2.BackColor = Color.Yellow;
+                    buttons[index].BackColor = Color.Yellow;
+                }
+                else
+                {
+                    btnQ3.BackColor = Color.Yellow;
+                    buttons[index].BackColor = Color.Yellow;
+                }
+
+                if(btn % 2 == 0)
+                {
+                    btnHr.BackColor = Color.Yellow;
+                    buttons[index].BackColor = Color.Yellow;
+                }
+                else
+                {
+                    
+                    btnHb.BackColor = Color.Yellow;
+                    buttons[index].BackColor = Color.Yellow;
+                }
+
+                Console.WriteLine(i);
+                Thread.Sleep(Convert.ToInt32(i));
+
+                btnQ1.BackColor = spcColor;
+                btnQ2.BackColor = spcColor;
+                btnQ3.BackColor = spcColor;
+
+                btnHr.BackColor = hrColor;
+                btnHb.BackColor = hbColor;
+
+                buttons[index].BackColor = bColor;
+
+                if(index < buttons.Count-1) { index++; } else { index = 0; }
+                x++;
+            }
+            threadIsAlreadyActive = false;
+        } // not Ready
     }
 }
