@@ -220,16 +220,22 @@ namespace Roulette
 
         private void btnSpin_Click(object sender, EventArgs e)
         {
-            List<int> btnL = new List<int>();
+            List<Button> btnL = new List<Button>();
 
-            foreach(List<int> list in btnM)
+            foreach(Button button in buttons)
             {
-                btnL.Add(list[0]);
+                if (button.Name.StartsWith("btn_"))
+                {
+                    btnL.Add(button);
+                }
+                
             }
+
+            btnL.Reverse();
 
             if (!threadIsAlreadyActive)
             {
-                Thread spinThread = new Thread(() => Roulette(btnL)); ;
+                Thread spinThread = new Thread(() => Roulette(btnL));
                 spinThread.Start();
                 threadIsAlreadyActive = true;
             }
@@ -337,74 +343,73 @@ namespace Roulette
             return false;
         }
 
-        private void Roulette(List<int> btnL)
+        private void Roulette(List<Button> btnL, Label label) // not ready
         {
             Random rand = new Random();
             int x=0;
             int index=0;
-            
 
-            // in this for-loop i used the exponential function a * b^x
+            // in this for-loop i used the exponential function a * b^x      <= maby a quadratic funtion would be more random in the outcome
             // to simulate the down slowing effect through enrgy loss
 
             for (double i = 1; i <= rand.Next(1000, 1500); i *= Math.Pow(1.001, x))
             {
-                Color bColor = buttons[index].BackColor;
-                Color spcColor = Color.Green;                       // <= refactoring necessary
-                Color hrColor = btnHr.BackColor;
-                Color hbColor = btnHb.BackColor;
+                Console.WriteLine("!");
+                Color bColor = btnL[index].BackColor;
+                Color fColor = btnL[index].ForeColor;
 
-                int btn = 0;
+                btnL[index].BackColor = Color.Yellow;
+                btnL[index].ForeColor = Color.Black;
 
-                if (buttons[index].Name.StartsWith("btn_"))
-                {
-                    btn = Convert.ToInt32(buttons[index].Text);
-                }
-
-                if (btn <= 12 && btn > 0)
-                {
-                    btnQ1.BackColor = Color.Yellow;
-                    buttons[index].BackColor = Color.Yellow;
-                }
-                else if(btn <= 24)
-                {
-                    btnQ2.BackColor = Color.Yellow;
-                    buttons[index].BackColor = Color.Yellow;
-                }
-                else
-                {
-                    btnQ3.BackColor = Color.Yellow;
-                    buttons[index].BackColor = Color.Yellow;
-                }
-
-                if(btn % 2 == 0)
-                {
-                    btnHr.BackColor = Color.Yellow;
-                    buttons[index].BackColor = Color.Yellow;
-                }
-                else
-                {
-                    
-                    btnHb.BackColor = Color.Yellow;
-                    buttons[index].BackColor = Color.Yellow;
-                }
-
+                Console.WriteLine(btnL[index].Name);
                 Console.WriteLine(i);
                 Thread.Sleep(Convert.ToInt32(i));
 
-                btnQ1.BackColor = spcColor;
-                btnQ2.BackColor = spcColor;
-                btnQ3.BackColor = spcColor;
+                btnL[index].BackColor = bColor;
+                btnL[index].ForeColor = fColor;
 
-                btnHr.BackColor = hrColor;
-                btnHb.BackColor = hbColor;
-
-                buttons[index].BackColor = bColor;
-
-                if(index < buttons.Count-1) { index++; } else { index = 0; }
+                if(index < btnL.Count-1) { index++; } else { index = 0; }
                 x++;
             }
+            Won(btnL[index]);
             threadIsAlreadyActive = false;
-        } // not Ready
+        }
+
+        private void Won(Button button) // not ready
+        {
+            bool isSet = false;
+            bool isInformed = false;
+
+            int newValue = Convert.ToInt32(lblPoints.Text);
+
+            foreach(List<int> btn in btnM)
+            {
+                if(btn.Count == 2 && btn[0].Equals(Convert.ToInt32(button.Text)))
+                {
+                    MessageBox.Show("You Won");
+                    newValue += btn.Last()*35;
+
+                    isSet = true;
+                    isInformed = true;
+                }
+            }
+            
+            foreach(List<string> btn in spcBtn)
+            {
+                if(btn.Count == 2)
+                {
+                    if((btn[0].StartsWith("btnQ") || btn[0].StartsWith("btnR")) && isSet)
+                    {
+                        newValue += Convert.ToInt32(btn.Last())*3;
+                    }
+                    else if (btn[0].StartsWith("btnH"))
+                    {
+                        newValue += Convert.ToInt32(btn.Last()) * 2;
+                    }
+                }
+            }
+
+            lblPoints.Text = newValue.ToString();
+        }
     }
 }
