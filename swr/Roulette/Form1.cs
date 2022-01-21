@@ -13,6 +13,8 @@ namespace Roulette
 {
     public partial class Form1 : Form
     {
+        private delegate void SafeCallDelegate(string points);
+
         // inits lists for control elements
         private List<Button> buttons = new List<Button>();
         private List<Button> selection = new List<Button>();
@@ -235,7 +237,8 @@ namespace Roulette
 
             if (!threadIsAlreadyActive)
             {
-                Thread spinThread = new Thread(() => Roulette(btnL));
+                Thread spinThread = new Thread(() => Roulette(btnL))
+                { IsBackground = true };
                 spinThread.Start();
                 threadIsAlreadyActive = true;
             }
@@ -335,6 +338,7 @@ namespace Roulette
         private bool isCtrlInv(Button button)
         {
             // isCtrlInv() [is control invalid]
+            // checks the validation of the given control element
 
             if (invCtrls.Contains(button.Name))
             {
@@ -343,7 +347,7 @@ namespace Roulette
             return false;
         }
 
-        private void Roulette(List<Button> btnL, Label label) // not ready
+        private void Roulette(List<Button> btnL) // not ready
         {
             Random rand = new Random();
             int x=0;
@@ -375,8 +379,10 @@ namespace Roulette
             threadIsAlreadyActive = false;
         }
 
-        private void Won(Button button) // not ready
+        private void Won(Button button)
         {
+            // checks if the player won a round or not
+
             bool isSet = false;
             bool isInformed = false;
 
@@ -409,7 +415,23 @@ namespace Roulette
                 }
             }
 
-            lblPoints.Text = newValue.ToString();
+            safeCall(newValue.ToString());
+        }
+
+        private void safeCall(string points)
+        {
+            // this function is required to call the controll element lblPoints
+            // and change its text without crashing!!!
+
+            if (lblPoints.InvokeRequired)
+            {
+                var t = new SafeCallDelegate(safeCall); // <= creating an instance of the SafeCallDelegante and calling the method in its self
+                lblPoints.Invoke(t, new object[] { points });
+            }
+            else
+            {
+                lblPoints.Text = points;
+            }
         }
     }
 }
