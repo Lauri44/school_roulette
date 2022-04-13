@@ -351,7 +351,6 @@ namespace Roulette
         {
             Random rand = new Random();
             int x=0; // <= Contains the exponent for the for-loop
-            int maxCount = rand.Next(1000, 1500);
             int index = rand.Next(0, 36);
             double y = rand.NextDouble() / 100;
             double OUTCOME = (y < 0.001) ? y + 1.001 : y + 1.000;
@@ -359,7 +358,7 @@ namespace Roulette
             // in this for-loop i used the exponential function a * b^x
             // to simulate the down slowing effect through enrgy loss
 
-            for (double i = 1; true; i *= Math.Pow(OUTCOME, x))
+            for (double i = 1; i <= rand.Next(1000, 1500); i *= Math.Pow(OUTCOME, x))
             {
                 if (i > 1 && index < btnL.Count - 1) { index++; } else { index = 0; }
 
