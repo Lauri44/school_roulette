@@ -352,8 +352,8 @@ namespace Roulette
             Random rand = new Random();
             int x=0; // <= Contains the exponent for the for-loop
             int index = rand.Next(0, 36);
-            double y = rand.NextDouble() / 100;
-            double OUTCOME = (y < 0.001) ? y + 1.001 : y + 1.000;
+            double OUTCOME = rand.NextDouble() / 100;
+            OUTCOME += (OUTCOME < 0.001) ? 1.001 : 1.000;
 
             // in this for-loop i used the exponential function a * b^x
             // to simulate the down slowing effect through enrgy loss
