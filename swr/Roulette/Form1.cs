@@ -338,7 +338,7 @@ namespace Roulette
         private bool isCtrlInv(Button button)
         {
             // isCtrlInv() [is control invalid]
-            // checks the validation of the given control element
+            // it is a validation check of the given control element
 
             if (invCtrls.Contains(button.Name))
             {
@@ -350,31 +350,33 @@ namespace Roulette
         private void Roulette(List<Button> btnL) // not ready
         {
             Random rand = new Random();
-            int x=0;
-            int index=0;
+            int x=0; // <= Contains the exponent for the for-loop
+            int maxCount = rand.Next(1000, 1500);
+            int index = rand.Next(0, 36);
+            double y = rand.NextDouble() / 100;
+            double OUTCOME = (y < 0.001) ? y + 1.001 : y + 1.000;
 
-            // in this for-loop i used the exponential function a * b^x      <= maby a quadratic funtion would be more random in the outcome
+            // in this for-loop i used the exponential function a * b^x
             // to simulate the down slowing effect through enrgy loss
 
-            for (double i = 1; i <= rand.Next(1000, 1500); i *= Math.Pow(1.001, x))
+            for (double i = 1; true; i *= Math.Pow(OUTCOME, x))
             {
-                Console.WriteLine("!");
+                if (i > 1 && index < btnL.Count - 1) { index++; } else { index = 0; }
+
                 Color bColor = btnL[index].BackColor;
                 Color fColor = btnL[index].ForeColor;
 
                 btnL[index].BackColor = Color.Yellow;
                 btnL[index].ForeColor = Color.Black;
 
-                Console.WriteLine(btnL[index].Name);
-                Console.WriteLine(i);
                 Thread.Sleep(Convert.ToInt32(i));
 
                 btnL[index].BackColor = bColor;
                 btnL[index].ForeColor = fColor;
-
-                if(index < btnL.Count-1) { index++; } else { index = 0; }
+                
                 x++;
             }
+            Console.WriteLine(btnL[index].Name);
             Won(btnL[index]);
             threadIsAlreadyActive = false;
         }
@@ -402,7 +404,7 @@ namespace Roulette
             
             foreach(List<string> btn in spcBtn)
             {
-                if(btn.Count == 2)
+                if(btn.Count == 2) //this is a part of the reward system but its not finished yet...
                 {
                     if((btn[0].StartsWith("btnQ") || btn[0].StartsWith("btnR")) && isSet)
                     {

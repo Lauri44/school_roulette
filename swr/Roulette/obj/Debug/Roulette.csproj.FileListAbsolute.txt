@@ -81,3 +81,14 @@ C:\Users\Lauri\Desktop\school\swr\git\roulette\swr\Roulette\obj\Debug\Roulette.p
 \\S1\StudentsHome$\L.vonOppenkowski\Data\Desktop\school_roulette-main (3)\school_roulette-main\swr\Roulette\bin\Debug\Roulette.exe.config
 \\S1\StudentsHome$\L.vonOppenkowski\Data\Desktop\school_roulette-main (3)\school_roulette-main\swr\Roulette\bin\Debug\Roulette.exe
 \\S1\StudentsHome$\L.vonOppenkowski\Data\Desktop\school_roulette-main (3)\school_roulette-main\swr\Roulette\bin\Debug\Roulette.pdb
+C:\Users\Lauri\Desktop\school_roulette-main\swr\Roulette\bin\Debug\Roulette.exe.config
+C:\Users\Lauri\Desktop\school_roulette-main\swr\Roulette\bin\Debug\Roulette.exe
+C:\Users\Lauri\Desktop\school_roulette-main\swr\Roulette\bin\Debug\Roulette.pdb
+C:\Users\Lauri\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.csproj.AssemblyReference.cache
+C:\Users\Lauri\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.csproj.SuggestedBindingRedirects.cache
+C:\Users\Lauri\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.Form1.resources
+C:\Users\Lauri\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.Properties.Resources.resources
+C:\Users\Lauri\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.csproj.GenerateResource.cache
+C:\Users\Lauri\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.csproj.CoreCompileInputs.cache
+C:\Users\Lauri\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.exe
+C:\Users\Lauri\Desktop\school_roulette-main\swr\Roulette\obj\Debug\Roulette.pdb
